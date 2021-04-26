@@ -22,4 +22,4 @@ const mysqlConnection = typeorm.createConnection({
     cli: { entitiesDir: 'src/entity' },
 });
 
-module.exports = mysqlConnection;
+module.exports = { mysqlConnection };

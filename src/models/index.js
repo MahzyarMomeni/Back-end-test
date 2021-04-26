@@ -1,1 +1,1 @@
-module.exports.Task = require('./task.model');
+module.exports.TaskModel = require('./task.model');

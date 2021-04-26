@@ -13,7 +13,7 @@ class TaskRepository {
             const taskManager = global.mysqlConnection.manager.create(taskEntity, task);
             await global.mysqlConnection.manager.save(taskManager);
         } catch {
-            throw new Error(`Can not insert data into 'future': ${error.message}`);
+            throw new Error(`Can not insert data into 'task': ${error.message}`);
 
         }
     }
