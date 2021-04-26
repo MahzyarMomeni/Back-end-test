@@ -1,7 +1,9 @@
+require('reflect-metadata');
 const typeorm = require('typeorm');
 
 const {
     MYSQL_HOST,
+    MYSQL_PORT,
     MYSQL_USER,
     MYSQL_PASSWORD,
     MYSQL_DATABASE
@@ -11,6 +13,7 @@ const mysqlConnection = typeorm.createConnection({
     name: 'MySQL Connection',
     type: 'mysql',
     host: MYSQL_HOST,
+    port: MYSQL_PORT,
     username: MYSQL_USER,
     password: MYSQL_PASSWORD,
     database: MYSQL_DATABASE,
