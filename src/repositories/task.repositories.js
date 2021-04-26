@@ -27,6 +27,14 @@ class TaskRepository {
             throw new Error(`Can not Find Data: ${error.message}`);
         }
     }
+
+    async deleteOne(id) {
+        try {
+            await global.mysqlConnection.manager.delete(taskEntity, id);
+        } catch {
+            throw new Error(`Can not Delete Data: ${error.message}`);
+        }
+    }
 }
 
 module.exports = TaskRepository;

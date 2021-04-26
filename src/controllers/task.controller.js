@@ -17,3 +17,15 @@ exports.getTask = asyncHandler(async (req, res, next) => {
         next(new AppError(error.message, 3000, res.status));
     }
 })
+
+exports.deleteTask = asyncHandler(async (req, res, next) => {
+    try {
+        const id = req.params;
+        const taskrepository = new TaskRepository();
+        await taskrepository.deleteOne(id);
+        res.status(200).send({ 'message': 'task delete successfully' });
+
+    } catch (error) {
+        next(new AppError(error.message, 3000, res.status));
+    }
+})
