@@ -1,0 +1,1 @@
+module.exports.taskEntity = require('./task.entity');
