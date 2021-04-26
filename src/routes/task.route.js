@@ -1,8 +1,8 @@
 const express = require('express');
-
-
-
+const { taskValidation } = require('../validations');
 
 const router = express.Router();
 
-router.post('/', )
+router.post('/', taskValidation.validateTask);
+
+module.exports = router;
