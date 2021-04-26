@@ -21,7 +21,6 @@ class TaskRepository {
     async findAll() {
         try {
             const allTask = await global.mysqlConnection.manager.find(taskEntity);
-            console.log("AAAAAAAAA");
             return allTask;
         } catch (error) {
             throw new Error(`Can not Find Data: ${error.message}`);
