@@ -1,2 +1,2 @@
-module.exports.healthController = require('./health.cotroller');
+module.exports.healthController = require('./health.controller');
 module.exports.taskController = require('./task.controller');

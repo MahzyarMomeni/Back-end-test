@@ -34,6 +34,22 @@ class TaskRepository {
             throw new Error(`Can not Delete Data: ${error.message}`);
         }
     }
+
+    async update(id) {
+        try {
+            const task = await global.mysqlConnection.manager.findOne(taskEntity);
+            if (task.status == 'todo') {
+                task.status = 'doing';
+            }
+            else if (task.status == 'doing') {
+                task.status = 'done';
+            }
+            const newTask = await global.mysqlConnection.manager.update(taskEntity, id, task.status);
+            return newTask;
+        } catch (error) {
+            throw new Error(`Can not Update Data: ${error.message}`);
+        }
+    }
 }
 
 module.exports = TaskRepository;

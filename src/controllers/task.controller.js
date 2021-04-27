@@ -28,3 +28,14 @@ exports.deleteTask = asyncHandler(async (req, res, next) => {
         next(new AppError(error.message, 3000, res.status));
     }
 })
+
+exports.updateTaske = asyncHandler(async (req, res, next) => {
+    try {
+        const id = req.params;
+        const taskrepository = new TaskRepository();
+        const newTask = await taskrepository.update(id);
+        res.status(200).json(newTask);
+    } catch (error) {
+        next(new AppError(error.message, 3000, res.status));
+    }
+})
