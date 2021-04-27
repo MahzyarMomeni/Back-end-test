@@ -18,5 +18,6 @@ class UserRepository {
             throw new Error(`Can not insert data into 'user': ${error.message}`);
         }
     }
-
 }
+
+module.exports = UserRepository;
