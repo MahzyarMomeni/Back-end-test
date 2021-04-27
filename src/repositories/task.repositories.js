@@ -30,7 +30,7 @@ class TaskRepository {
     async deleteOne(id) {
         try {
             await global.mysqlConnection.manager.delete(taskEntity, id);
-        } catch {
+        } catch (error) {
             throw new Error(`Can not Delete Data: ${error.message}`);
         }
     }

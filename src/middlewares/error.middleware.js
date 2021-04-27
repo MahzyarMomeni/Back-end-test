@@ -15,5 +15,5 @@ exports.responseError = (err, req, res, next) => {
 
 exports.notFoundError = (req, res, next) => {
     let message = 'آدرس وارد شده صحیح نمی‌باشد';
-    next(new AppError(message, 2000, 404));
+    next(new AppError(message, '2000', 404));
 }

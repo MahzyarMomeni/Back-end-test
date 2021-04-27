@@ -18,6 +18,26 @@ class UserRepository {
             throw new Error(`Can not insert data into 'user': ${error.message}`);
         }
     }
+
+    async findUser(body) {
+        try {
+            let userExist = true;
+            let user = await global.mysqlConnection.manager.findOne(userEntity, { username: body.username });
+            if (!user) {
+                user = await global.mysqlConnection.manager.findOne(userEntity, { email: body.email });
+                if (!user) {
+                    user = await global.mysqlConnection.manager.findOne(userEntity, { phoneNumber: body.phoneNumber });
+                    if (!user) {
+                        return userExist;
+                    }
+                }
+            }
+            userExist = false;
+            return userExist;
+        } catch (error) {
+            throw new Error(`Can not Find Data: ${error.message}`);
+        }
+    }
 }
 
 module.exports = UserRepository;
