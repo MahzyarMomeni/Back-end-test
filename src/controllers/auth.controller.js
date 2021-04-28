@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const { UserRepository } = require('../repositories');
 const appError = require('../utils/appError');
+const { getToken } = require('../services');
 
 exports.login = asyncHandler(async (req, res, next) => {
     try {
@@ -17,9 +18,11 @@ exports.login = asyncHandler(async (req, res, next) => {
             throw new Error('invalid password');
         };
 
-        const token = user.generateAuthToken();
+        // const token = user.generateAuthToken();
+        // var token = jwt.sign({ username: user.username }, 'jwtprivatekey');
+        let token = getToken.generateAuthToken(user);
 
-        res.send(token);
+        res.status(200).json({ 'access token': token });
 
     } catch (error) {
         next(new appError(error.message, '5000', 401));
