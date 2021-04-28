@@ -18,11 +18,9 @@ exports.login = asyncHandler(async (req, res, next) => {
             throw new Error('invalid password');
         };
 
-        // const token = user.generateAuthToken();
-        // var token = jwt.sign({ username: user.username }, 'jwtprivatekey');
         let token = getToken.generateAuthToken(user);
 
-        res.status(200).json({ 'access token': token });
+        res.status(200).json({ 'access_token': token });
 
     } catch (error) {
         next(new appError(error.message, '5000', 401));

@@ -6,7 +6,7 @@ exports.responseError = (err, req, res, next) => {
     err.path = req.originalUrl;
 
     res.status(err.statusCode).json({
-        service: 'psh',
+        service: 'toDoListApp',
         path: err.path,
         code: err.errorCode,
         message: err.message,
@@ -14,6 +14,8 @@ exports.responseError = (err, req, res, next) => {
 };
 
 exports.notFoundError = (req, res, next) => {
-    let message = 'آدرس وارد شده صحیح نمی‌باشد';
-    next(new AppError(message, '2000', 404));
+    if (!req.route) {
+        let message = 'آدرس وارد شده صحیح نمی‌باشد';
+        next(new AppError(message, '2000', 404));
+    }
 }

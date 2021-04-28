@@ -1,5 +1,6 @@
 const { TaskModel } = require('../models');
 const { taskEntity } = require('../entity');
+const AppError = require('../utils/appError');
 
 class TaskRepository {
     constructor() { }
@@ -35,20 +36,26 @@ class TaskRepository {
         }
     }
 
-    async update(id) {
+    async update(id, req, res, next) {
         try {
-            const task = await global.mysqlConnection.manager.findOne(taskEntity);
+            const task = await global.mysqlConnection.manager.findOne(taskEntity, id);
+            if (!task) {
+                throw new Error('there is no task with this id...');
+            };
+            let status;
             if (task.status == 'todo') {
-                task.status = 'doing';
+                status = 'doing';
             }
             else if (task.status == 'doing') {
-                task.status = 'done';
+                status = 'done';
             }
-            const newTask = await global.mysqlConnection.manager.update(taskEntity, id, task.status);
+            const newTask = await global.mysqlConnection.manager.update(taskEntity, { id }, { status });
             return newTask;
         } catch (error) {
-            throw new Error(`Can not Update Data: ${error.message}`);
+            // throw new Error(`Can not Update Data: ${error.message}`);
+            next(new AppError(error.message, '4000', 400));
         }
+        next();
     }
 }
 
