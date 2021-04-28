@@ -1,10 +1,9 @@
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 const { UserRepository } = require('../repositories');
-const appError = require('../utils/appError');
 const { getToken } = require('../services');
+const appError = require('../utils/appError');
 
 exports.login = asyncHandler(async (req, res, next) => {
     try {
@@ -26,4 +25,9 @@ exports.login = asyncHandler(async (req, res, next) => {
         next(new appError(error.message, '5000', 401));
     }
     next();
+})
+
+exports.refreshToken = asyncHandler(async (req, res, next) => {
+    var refreshToken = getToken.generateRefreshToken(req.body);
+    res.status(200).json(refreshToken);
 })
