@@ -36,11 +36,11 @@ class TaskRepository {
         }
     }
 
-    async update(id, req, res, next) {
+    async update(id) {
         try {
             const task = await global.mysqlConnection.manager.findOne(taskEntity, id);
             if (!task) {
-                throw new Error('there is no task with this id...');
+                throw new AppError('there is no task with this id...', '4000', 400);
             };
             let status;
             if (task.status == 'todo') {
@@ -49,13 +49,11 @@ class TaskRepository {
             else if (task.status == 'doing') {
                 status = 'done';
             }
-            const newTask = await global.mysqlConnection.manager.update(taskEntity, { id }, { status });
+            const newTask = await global.mysqlConnection.manager.update({ id }, { status }, taskEntity);
             return newTask;
         } catch (error) {
-            // throw new Error(`Can not Update Data: ${error.message}`);
-            next(new AppError(error.message, '4000', 400));
+            throw new AppError(error.message, '4000', 400);
         }
-        next();
     }
 }
 

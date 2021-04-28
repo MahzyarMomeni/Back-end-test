@@ -7,7 +7,6 @@ exports.auth = function (req, res, next) {
     try {
         const decoded = jwt.verify(token, 'jwtPrivateKey');
         req.user = decoded;
-        next();
     } catch (error) {
         next(new AppError('Invalid token.', '5000', 400));
     }
