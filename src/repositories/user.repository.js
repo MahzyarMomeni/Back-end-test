@@ -21,19 +21,17 @@ class UserRepository {
 
     async findUser(body) {
         try {
-            let userExist = true;
             let user = await global.mysqlConnection.manager.findOne(userEntity, { username: body.username });
             if (!user) {
                 user = await global.mysqlConnection.manager.findOne(userEntity, { email: body.email });
                 if (!user) {
                     user = await global.mysqlConnection.manager.findOne(userEntity, { phoneNumber: body.phoneNumber });
                     if (!user) {
-                        return userExist;
+                        return undefined;
                     }
                 }
             }
-            userExist = false;
-            return userExist;
+            return user;
         } catch (error) {
             throw new Error(`Can not Find Data: ${error.message}`);
         }

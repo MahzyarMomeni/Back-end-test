@@ -8,8 +8,8 @@ const AppError = require('../utils/appError');
 exports.addUser = asyncHandler(async (req, res, next) => {
     try {
         const userRepository = new UserRepository();
-        let userExist = await userRepository.findUser(req.body);
-        if (!userExist) {
+        let user = await userRepository.findUser(req.body);
+        if (user) {
             throw new Error('user already exist');
         }
         const salt = await bcrypt.genSalt(10);
