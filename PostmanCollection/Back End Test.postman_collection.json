@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "ad0e62d0-9b73-413c-8710-b090ecb158c2",
+		"name": "Back End Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Topex",
+			"item": [
+				{
+					"name": "Task",
+					"item": [
+						{
+							"name": "Create Task",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"note\": \"task\",\r\n    \"status\": \"todo\"\r\n}"
+								},
+								"url": "localhost:5000/api/v1/todos"
+							},
+							"response": []
+						},
+						{
+							"name": "Health Check",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:5000/api/v1/health"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Tasks",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": "localhost:5000/api/v1/todos/"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Task",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": "localhost:5000/api/v1/todos/1"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Task",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": "localhost:5000/api/v1/todos/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Sign Up",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"mahzyar\",\r\n    \"email\": \"mahzyar.momeni@gmail.com\",\r\n    \"phoneNumber\": \"09334328703\",\r\n    \"password\": \"123456789\"\r\n}"
+								},
+								"url": "localhost:5000/api/v1/auth/signup"
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"your test name\"] = jsonData.access_token !== undefined;\r",
+											"pm.environment.set(\"access_token\", jsonData.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"mahzyar.momeni@gmail.com\",\r\n    \"password\": \"123456789\"\r\n}"
+								},
+								"url": "localhost:5000/api/v1/auth/login"
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh Token",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n}"
+								},
+								"url": "localhost:5000/api/v1/auth/refresh-token"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
