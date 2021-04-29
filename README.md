@@ -1,6 +1,6 @@
 # To Do List App
 
-This project was generated with Node.js Run Time Environment
+This project was generated with Node.js Runtime Environment
 
 ## Developer
 
