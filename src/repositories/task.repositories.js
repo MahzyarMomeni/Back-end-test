@@ -49,8 +49,8 @@ class TaskRepository {
             else if (task.status == 'doing') {
                 status = 'done';
             }
-            const newTask = await global.mysqlConnection.manager.update({ id }, { status }, taskEntity);
-            return newTask;
+            await global.mysqlConnection.manager.update(taskEntity, id, { status });
+            return { 'message': 'task updated successfully.' };
         } catch (error) {
             throw new AppError(error.message, '4000', 400);
         }
