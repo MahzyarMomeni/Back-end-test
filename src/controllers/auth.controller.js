@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const { UserRepository } = require('../repositories');
 const { getToken } = require('../services');
 const appError = require('../utils/appError');
+const AppError = require('../utils/appError');
 
 exports.login = asyncHandler(async (req, res, next) => {
     try {
@@ -28,6 +29,11 @@ exports.login = asyncHandler(async (req, res, next) => {
 })
 
 exports.refreshToken = asyncHandler(async (req, res, next) => {
-    var refreshToken = getToken.generateRefreshToken(req.body);
-    res.status(200).json(refreshToken);
+    try {
+
+        var refreshToken = getToken.generateRefreshToken(req.headers.authorization);
+        res.status(200).json(refreshToken);
+    } catch (error) {
+        next(new AppError(errro.message, '4000', 400));
+    }
 })

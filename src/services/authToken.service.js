@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
-const randtoken = require('rand-token');
 
 const AppError = require('../utils/appError');
-const { JWT_SECRET_KEY } = require('./config/keys');
+const { JWT_SECRET_KEY } = require('../config/keys');
 
 exports.generateAuthToken = function (user) {
     try {
@@ -29,18 +28,17 @@ exports.generateAuthToken = function (user) {
     next();
 }
 
-exports.generateRefreshToken = function (user) {
-    var refreshTokens = {};
-    var refreshToken = randtoken.uid(256);
-    if (user.username) {
-        refreshTokens[refreshToken] = user.username;
-    } else if (user.email) {
-        refreshTokens[refreshToken] = user.email;
-    } else if (user.phoneNumber) {
-        refreshTokens[refreshToken] = user.phoneNumber;
-    } else {
-        throw new Error('can not generate refresh token...');
-    }
-    return { refreshToken: refreshToken };
+exports.generateRefreshToken = function (token) {
+    try {
+        const payload = jwt.verify(token, JWT_SECRET_KEY);
+        delete payload.iat;
+        delete payload.exp;
+        delete payload.nbf;
+        delete payload.jti;
+        const jwtSignOptions = Object.assign({}, this.options, { jwtid: { expiresIn: 60 * 5 } });
+        return jwt.sign(payload, JWT_SECRET_KEY, jwtSignOptions);
+    } catch (error) {
+        throw (new Error(error.message));
 
+    }
 }
