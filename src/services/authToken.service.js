@@ -2,23 +2,23 @@ const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
 
 const AppError = require('../utils/appError');
+const { JWT_SECRET_KEY } = require('./config/keys');
 
 exports.generateAuthToken = function (user) {
     try {
-        let SECRET = 'jwtPrivateKey';
         let token;
         if (user.username) {
             token = jwt.sign({
                 data: user.username
-            }, SECRET, { expiresIn: 60 * 5 });
+            }, JWT_SECRET_KEY, { expiresIn: 60 * 5 });
         } else if (user.email) {
             token = jwt.sign({
                 data: user.email
-            }, SECRET, { expiresIn: 60 * 5 });
+            }, JWT_SECRET_KEY, { expiresIn: 60 * 5 });
         } else if (user.phoneNumber) {
             token = jwt.sign({
                 data: user.phoneNumber
-            }, SECRET, { expiresIn: 60 * 5 });
+            }, JWT_SECRET_KEY, { expiresIn: 60 * 5 });
         } else {
             throw new Error('can not generate token...');
         }
