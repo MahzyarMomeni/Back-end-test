@@ -10,15 +10,15 @@ exports.generateAuthToken = function (user) {
         if (user.username) {
             token = jwt.sign({
                 data: user.username
-            }, SECRET, { expiresIn: 30 });
+            }, SECRET, { expiresIn: 60 * 5 });
         } else if (user.email) {
             token = jwt.sign({
                 data: user.email
-            }, SECRET, { expiresIn: 30 });
+            }, SECRET, { expiresIn: 60 * 5 });
         } else if (user.phoneNumber) {
             token = jwt.sign({
                 data: user.phoneNumber
-            }, SECRET, { expiresIn: 30 });
+            }, SECRET, { expiresIn: 60 * 5 });
         } else {
             throw new Error('can not generate token...');
         }
