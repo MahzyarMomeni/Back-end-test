@@ -20,7 +20,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
         let token = getToken.generateAuthToken(user);
 
-        res.status(200).json({ 'access_token': token });
+        res.status(200).json({ 'access_token': token.accessToken, 'refresh_token': token.refreshToken });
 
     } catch (error) {
         next(new appError(error.message, '5000', 401));

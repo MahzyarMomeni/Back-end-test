@@ -5,23 +5,36 @@ const { JWT_SECRET_KEY } = require('../config/keys');
 
 exports.generateAuthToken = function (user) {
     try {
-        let token;
+        let accessToken;
+        let refreshToken;
         if (user.username) {
-            token = jwt.sign({
+            accessToken = jwt.sign({
                 data: user.username
             }, JWT_SECRET_KEY, { expiresIn: 60 * 5 });
+
+            refreshToken = jwt.sign({
+                data: user.username
+            }, JWT_SECRET_KEY, { expiresIn: 60 * 60 });
         } else if (user.email) {
-            token = jwt.sign({
+            accessToken = jwt.sign({
                 data: user.email
             }, JWT_SECRET_KEY, { expiresIn: 60 * 5 });
+
+            refreshToken = jwt.sign({
+                data: user.username
+            }, JWT_SECRET_KEY, { expiresIn: 60 * 60 });
         } else if (user.phoneNumber) {
-            token = jwt.sign({
+            accessToken = jwt.sign({
                 data: user.phoneNumber
             }, JWT_SECRET_KEY, { expiresIn: 60 * 5 });
+
+            refreshToken = jwt.sign({
+                data: user.username
+            }, JWT_SECRET_KEY, { expiresIn: 60 * 60 });
         } else {
             throw new Error('can not generate token...');
         }
-        return token;
+        return { accessToken, refreshToken };
     } catch (error) {
         next(new AppError(error.message, '5000', 400));
     }
