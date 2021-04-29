@@ -36,22 +36,23 @@ exports.generateAuthToken = function (user) {
         }
         return { accessToken, refreshToken };
     } catch (error) {
-        next(new AppError(error.message, '5000', 400));
+        throw new Error(error.message);
     }
-    next();
 }
 
-exports.generateRefreshToken = function (token) {
+exports.refreshToken = function (user) {
     try {
-        const payload = jwt.verify(token, JWT_SECRET_KEY);
-        delete payload.iat;
-        delete payload.exp;
-        delete payload.nbf;
-        delete payload.jti;
-        const jwtSignOptions = Object.assign({}, this.options, { jwtid: { expiresIn: 60 * 5 } });
-        return jwt.sign(payload, JWT_SECRET_KEY, jwtSignOptions);
-    } catch (error) {
-        throw (new Error(error.message));
+        let accessToken;
+        let refreshToken;
+        accessToken = jwt.sign({
+            data: user
+        }, JWT_SECRET_KEY, { expiresIn: 60 * 5 });
 
+        refreshToken = jwt.sign({
+            data: user
+        }, JWT_SECRET_KEY, { expiresIn: 60 * 60 });
+        return { accessToken, refreshToken };
+    } catch (error) {
+        throw new Error(error.message);
     }
 }

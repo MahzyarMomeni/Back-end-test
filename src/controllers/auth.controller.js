@@ -30,9 +30,8 @@ exports.login = asyncHandler(async (req, res, next) => {
 
 exports.refreshToken = asyncHandler(async (req, res, next) => {
     try {
-
-        var refreshToken = getToken.generateRefreshToken(req.headers.authorization);
-        res.status(200).json(refreshToken);
+        let token = getToken.refreshToken(req.user);
+        res.status(200).json({ 'access_token': token.accessToken, 'refresh_token': token.refreshToken });
     } catch (error) {
         next(new AppError(errro.message, '4000', 400));
     }
